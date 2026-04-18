@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serenity — UX Case Study</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Instrument+Sans:wght@300;400;500&display=swap');
+
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  background: #F7F4EF;
+  color: #1E1E1E;
+  overflow-x: hidden;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ─── CSS VARIABLES ─── */
+:root {
+  --sage:        #7B9B80;
+  --sage-light:  #C3D9C6;
+  --sage-pale:   #EDF4EE;
+  --blush:       #C97B72;
+  --blush-light: #E8BDB9;
+  --blush-pale:  #FAF0EF;
+  --sky:         #7B9DB8;
+  --sky-light:   #BDD0E0;
+  --sky-pale:    #EDF3F9;
+  --mauve:       #9B85A8;
+  --mauve-light: #CFBFD8;
+  --mauve-pale:  #F3EFF7;
+  --amber:       #C9A464;
+  --amber-pale:  #FBF4E8;
+  --cream:       #F7F4EF;
+  --white:       #FFFFFF;
+  --ink:         #1E1E1E;
+  --ink-mid:     #3D3D3D;
+  --ink-soft:    #6B6B6B;
+  --ink-faint:   #9A9A9A;
+  --border:      rgba(0,0,0,0.07);
+  --shadow-soft: 0 2px 20px rgba(0,0,0,0.06);
+  --shadow-card: 0 4px 32px rgba(0,0,0,0.08);
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-pill: 100px;
+}
+
+/* ─── TYPOGRAPHY ─── */
+.display { font-family: 'Fraunces', Georgia, serif; font-weight: 300; }
+.serif { font-family: 'Fraunces', Georgia, serif; }
+h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 300; }
+h1 { font-size: clamp(42px, 7vw, 80px); line-height: 1.05; letter-spacing: -0.02em; }
+h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.2; letter-spacing: -0.01em; }
+h3 { font-size: 22px; line-height: 1.3; }
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.body-sm { font-size: 13px; line-height: 1.65; color: var(--ink-soft); }
+.body-xs { font-size: 12px; line-height: 1.6; color: var(--ink-faint); }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+section { padding: 100px 0; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(247, 244, 239, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--sage);
+}
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-tag {
+  font-size: 11px;
+  padding: 5px 14px;
+  border-radius: var(--r-pill);
+  background: var(--sage);
+  color: white;
+  font-weight: 500;
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding-top: 80px;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.blob-1 { width: 600px; height: 600px; background: var(--sage-light); top: -200px; right: -150px; }
+.blob-2 { width: 400px; height: 400px; background: var(--blush-light); bottom: -100px; left: -100px; }
+.blob-3 { width: 300px; height: 300px; background: var(--mauve-light); top: 40%; left: 40%; }
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative; z-index: 1;
+  width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 32px;
+}
+.hero-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 28px; }
+.hero-pill {
+  font-size: 11px; font-weight: 500;
+  padding: 5px 14px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ink-soft);
+}
+.hero-title { margin-bottom: 24px; }
+.hero-title em { font-style: italic; color: var(--sage); }
+.hero-desc { font-size: 17px; line-height: 1.7; color: var(--ink-soft); margin-bottom: 36px; max-width: 480px; }
+.hero-stats { display: flex; gap: 32px; }
+.stat-item {}
+.stat-num { font-family: 'Fraunces', serif; font-size: 28px; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 12px; color: var(--ink-faint); }
+
+/* ─── HERO PHONE MOCKUP ─── */
+.phone-frame {
+  width: 280px;
+  height: 580px;
+  background: #1A1A1A;
+  border-radius: 44px;
+  padding: 12px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05) inset;
+  margin: 0 auto;
+  position: relative;
+}
+.phone-notch {
+  width: 80px; height: 24px;
+  background: #1A1A1A;
+  border-radius: 0 0 16px 16px;
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 10;
+}
+.phone-screen {
+  width: 100%; height: 100%;
+  border-radius: 36px;
+  overflow: hidden;
+  background: #F8F5F1;
+  display: flex; flex-direction: column;
+}
+.phone-status {
+  padding: 14px 20px 6px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; font-weight: 500; color: #1A1A1A;
+}
+.phone-content { padding: 8px 18px; flex: 1; overflow: hidden; }
+
+.app-greeting { margin-bottom: 18px; }
+.app-greeting-label { font-size: 11px; color: #9A9A9A; margin-bottom: 2px; }
+.app-greeting-name { font-size: 20px; font-weight: 500; color: #1A1A1A; font-family: 'Fraunces', serif; }
+
+.mood-ring-container { text-align: center; margin: 16px 0 20px; }
+.mood-ring-label { font-size: 11px; color: #9A9A9A; margin-bottom: 12px; }
+.mood-ring {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #7B9B80 0deg, #9BB89E 60deg, #C9A464 120deg, #C97B72 180deg, #9B85A8 240deg, #7B9DB8 300deg, #7B9B80 360deg
+  );
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(123,155,128,0.3);
+}
+.mood-ring::after {
+  content: '';
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: #F8F5F1;
+  position: absolute;
+}
+.mood-ring-inner {
+  position: relative; z-index: 2;
+  font-size: 28px;
+  line-height: 1;
+}
+.mood-dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+.mood-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+.md-1 { background: #EDF4EE; }
+.md-2 { background: #EDF3F9; }
+.md-3 { background: #FBF4E8; }
+.md-4 { background: #FAF0EF; }
+.md-5 { background: #F3EFF7; }
+.md-active { outline: 2px solid var(--sage); outline-offset: 2px; }
+
+.app-card {
+  background: white;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.app-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.app-card-label { font-size: 10px; font-weight: 500; color: #9A9A9A; text-transform: uppercase; letter-spacing: 0.08em; }
+.app-card-value { font-size: 18px; font-weight: 400; font-family: 'Fraunces', serif; color: #1A1A1A; }
+.app-card-sub { font-size: 11px; color: #9A9A9A; }
+.mini-bar { height: 4px; background: #F0EDE8; border-radius: 2px; overflow: hidden; margin-top: 8px; }
+.mini-bar-fill { height: 100%; border-radius: 2px; background: var(--sage); }
+
+.app-suggestion {
+  background: linear-gradient(135deg, #EDF4EE, #F3EFF7);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(123,155,128,0.15);
+}
+.app-suggestion-icon { font-size: 20px; margin-bottom: 4px; }
+.app-suggestion-title { font-size: 12px; font-weight: 500; color: #1A1A1A; margin-bottom: 2px; }
+.app-suggestion-desc { font-size: 10px; color: #6B6B6B; }
+.app-suggestion-btn {
+  margin-top: 8px;
+  font-size: 10px; font-weight: 500;
+  padding: 5px 12px;
+  background: var(--sage);
+  color: white;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.phone-nav {
+  padding: 10px 18px;
+  display: flex; justify-content: space-around; align-items: center;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  background: white;
+}
+.pnav-item { text-align: center; cursor: pointer; }
+.pnav-icon { font-size: 18px; margin-bottom: 2px; }
+.pnav-label { font-size: 9px; color: #9A9A9A; }
+.pnav-item.active .pnav-label { color: var(--sage); }
+.pnav-item.active .pnav-icon { filter: none; }
+
+/* ─── SECTION HEADERS ─── */
+.section-header { margin-bottom: 60px; }
+.section-header .label { margin-bottom: 12px; display: block; }
+.section-header h2 { margin-bottom: 16px; }
+.section-header p { font-size: 17px; color: var(--ink-soft); max-width: 560px; line-height: 1.7; }
+
+/* ─── PROBLEM SECTION ─── */
+.problem-section { background: var(--cream); }
+.problem-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
+.problem-quote-block {
+  background: var(--blush-pale);
+  border-left: 3px solid var(--blush);
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  padding: 36px 40px;
+  margin-bottom: 32px;
+}
+.problem-quote {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--blush);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.problem-source { font-size: 12px; color: var(--ink-faint); }
+.problem-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.problem-stat {
+  background: white;
+  border-radius: var(--r-md);
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+.problem-stat-num { font-family: 'Fraunces', serif; font-size: 36px; color: var(--blush); line-height: 1; margin-bottom: 6px; }
+.problem-stat-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.problem-right {}
+.problem-point {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.problem-point:last-child { border-bottom: none; }
+.problem-point-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.pi-blush { background: var(--blush-pale); }
+.pi-sage { background: var(--sage-pale); }
+.pi-mauve { background: var(--mauve-pale); }
+.problem-point-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.problem-point-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.55; }
+
+/* ─── PERSONA ─── */
+.persona-section { background: #F0EDE8; }
+.persona-card-outer {
+  background: white;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: grid;
+  grid-template-columns: 340px 1fr;
+}
+.persona-left {
+  background: linear-gradient(160deg, var(--mauve-pale) 0%, var(--sage-pale) 100%);
+  padding: 48px 40px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.persona-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--mauve);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(155,133,168,0.3);
+}
+.persona-name-block { margin-bottom: 32px; }
+.persona-name { font-family: 'Fraunces', serif; font-size: 26px; color: var(--ink); line-height: 1.2; margin-bottom: 4px; }
+.persona-role { font-size: 13px; color: var(--ink-soft); }
+.persona-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.chip {
+  font-size: 11px; font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  background: white;
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+}
+.persona-quote-small {
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.persona-right { padding: 48px 48px; }
+.persona-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.persona-block { }
+.persona-block-title {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.persona-block-title::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+.persona-list { list-style: none; }
+.persona-list li {
+  font-size: 13px; color: var(--ink-soft); line-height: 1.55;
+  padding: 6px 0;
+  padding-left: 16px; position: relative;
+}
+.persona-list li::before { content: ''; position: absolute; left: 0; top: 13px; width: 5px; height: 5px; border-radius: 50%; background: var(--mauve); }
+
+/* ─── USER JOURNEY ─── */
+.journey-section { background: var(--cream); }
+.journey-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+}
+.journey-line {
+  position: absolute;
+  top: 36px; left: 60px; right: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blush-light), var(--sage-light), var(--mauve-light));
+  z-index: 0;
+}
+.journey-step { position: relative; z-index: 1; text-align: center; padding: 0 8px; }
+.journey-step-dot {
+  width: 72px; height: 72px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 24px;
+  border: 3px solid white;
+  position: relative;
+  box-shadow: var(--shadow-soft);
+}
+.jd-1 { background: var(--blush-pale); }
+.jd-2 { background: var(--amber-pale); }
+.jd-3 { background: var(--sage-pale); }
+.jd-4 { background: var(--sky-pale); }
+.jd-5 { background: var(--mauve-pale); }
+.jd-6 { background: var(--sage-pale); }
+.journey-step-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.journey-step-desc { font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+.journey-emotion {
+  display: inline-block;
+  font-size: 10px; font-weight: 500;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  margin-top: 8px;
+}
+.em-low { background: var(--blush-pale); color: var(--blush); }
+.em-mid { background: var(--amber-pale); color: var(--amber); }
+.em-high { background: var(--sage-pale); color: var(--sage); }
+
+/* ─── FEATURES ─── */
+.features-section { background: #F0EDE8; }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background: white;
+  border-radius: var(--r-xl);
+  padding: 32px;
+  border: 1px solid var(--border);
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+.feature-icon {
+  width: 52px; height: 52px; border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 20px;
+}
+.fi-sage { background: var(--sage-pale); }
+.fi-blush { background: var(--blush-pale); }
+.fi-sky { background: var(--sky-pale); }
+.fi-mauve { background: var(--mauve-pale); }
+.fi-amber { background: var(--amber-pale); }
+.fi-sage2 { background: var(--sage-pale); }
+.feature-name { font-family: 'Fraunces', serif; font-size: 18px; margin-bottom: 10px; color: var(--ink); }
+.feature-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
+.feature-tag {
+  display: inline-block; margin-top: 16px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px; border-radius: var(--r-pill);
+  color: var(--sage); background: var(--sage-pale);
+}
+.feature-card.wide { grid-column: span 2; }
+
+/* ─── APP SCREENS ─── */
+.screens-section { background: var(--cream); overflow: hidden; }
+.screens-title-block { margin-bottom: 60px; }
+.screens-showcase { display: flex; gap: 28px; align-items: flex-start; justify-content: center; }
+
+/* Phone sizes */
+.phone-sm { transform: scale(0.85) translateY(30px); transform-origin: top center; }
+.phone-lg { transform: scale(1.05); transform-origin: top center; }
+
+/* Dashboard screen content */
+.dash-header { padding: 14px 18px 10px; display: flex; align-items: center; justify-content: space-between; }
+.dash-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--mauve); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.dash-hello { font-size: 10px; color: #9A9A9A; }
+.dash-name { font-size: 15px; font-weight: 500; font-family: 'Fraunces', serif; color: #1A1A1A; }
+.dash-body { padding: 0 16px; overflow: hidden; }
+.dash-mood-strip {
+  background: linear-gradient(135deg, #EDF4EE, #F3EFF7);
+  border-radius: 14px; padding: 14px 16px; margin-bottom: 12px;
+}
+.dash-mood-strip-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.dash-mood-strip-label { font-size: 11px; font-weight: 500; color: #3D3D3D; }
+.dash-mood-strip-value { font-size: 11px; color: #7B9B80; font-weight: 500; }
+.dash-mood-emojis { display: flex; gap: 10px; }
+.dash-emoji-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: white; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+}
+.dash-emoji-btn.sel { border-color: #7B9B80; background: #EDF4EE; }
+.dash-insight {
+  background: white; border-radius: 14px; padding: 14px 16px; margin-bottom: 12px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.dash-insight-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.dash-insight-icon { font-size: 16px; }
+.dash-insight-label { font-size: 11px; font-weight: 500; color: #3D3D3D; }
+.dash-chart { display: flex; align-items: flex-end; gap: 6px; height: 48px; }
+.dash-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  background: var(--sage-light);
+  position: relative;
+}
+.dash-bar.highlight { background: var(--sage); }
+.dash-tasks { background: white; border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; }
+.dash-tasks-title { font-size: 11px; font-weight: 500; color: #3D3D3D; margin-bottom: 10px; }
+.dash-task-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
+.dash-checkbox {
+  width: 16px; height: 16px; border-radius: 5px;
+  border: 1.5px solid #C3D9C6; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 10px;
+}
+.dash-checkbox.done { background: #7B9B80; border-color: #7B9B80; color: white; }
+.dash-task-label { font-size: 12px; color: #3D3D3D; }
+.dash-task-label.done { text-decoration: line-through; color: #9A9A9A; }
+
+/* Mood screen */
+.mood-screen-body { padding: 12px 16px; flex: 1; overflow: hidden; }
+.mood-screen-title { font-family: 'Fraunces', serif; font-size: 18px; color: #1A1A1A; margin-bottom: 4px; text-align: center; }
+.mood-screen-sub { font-size: 11px; color: #9A9A9A; text-align: center; margin-bottom: 16px; }
+.big-mood-ring {
+  width: 130px; height: 130px; border-radius: 50%;
+  background: conic-gradient(#7B9B80 0deg, #9BB89E 72deg, #C9A464 144deg, #C97B72 216deg, #9B85A8 288deg, #7B9B80 360deg);
+  margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 32px rgba(123,155,128,0.25);
+  position: relative;
+}
+.big-mood-ring::after {
+  content: ''; width: 94px; height: 94px; border-radius: 50%; background: #F8F5F1; position: absolute;
+}
+.big-mood-inner { position: relative; z-index: 2; font-size: 36px; }
+.mood-scale { display: flex; gap: 8px; margin-bottom: 16px; }
+.mood-scale-item {
+  flex: 1; text-align: center; padding: 8px 4px; border-radius: 10px; cursor: pointer; border: 1.5px solid transparent;
+}
+.msi-calm { background: #EDF4EE; }
+.msi-okay { background: #EDF3F9; }
+.msi-low { background: #FBF4E8; }
+.msi-tense { background: #FAF0EF; border-color: #C97B72; }
+.msi-sad { background: #F3EFF7; }
+.mood-scale-emoji { font-size: 18px; margin-bottom: 2px; }
+.mood-scale-label { font-size: 9px; color: #6B6B6B; }
+.mood-note {
+  background: white; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07);
+  padding: 10px 12px; font-size: 12px; color: #9A9A9A; margin-bottom: 12px;
+}
+.mood-log-btn {
+  width: 100%; padding: 12px; border-radius: 12px;
+  background: var(--sage); color: white;
+  font-size: 13px; font-weight: 500; text-align: center;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+/* Progress screen */
+.prog-screen-body { padding: 12px 16px; flex: 1; overflow: hidden; }
+.prog-title { font-family: 'Fraunces', serif; font-size: 17px; color: #1A1A1A; margin-bottom: 14px; }
+.prog-summary-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.prog-mini-card { background: white; border-radius: 10px; padding: 10px 8px; text-align: center; border: 1px solid rgba(0,0,0,0.05); }
+.prog-mini-num { font-family: 'Fraunces', serif; font-size: 20px; color: #1A1A1A; }
+.prog-mini-label { font-size: 9px; color: #9A9A9A; }
+.prog-week-chart { background: white; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+.dash-insight.bars-animated .dash-bar,
+.prog-week-chart.bars-animated .prog-bar-fill { transform: scaleY(1); }
+.prog-week-label { font-size: 10px; font-weight: 500; color: #6B6B6B; margin-bottom: 10px; }
+.prog-bars { display: flex; align-items: flex-end; gap: 6px; height: 60px; }
+.prog-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.prog-bar-fill { width: 100%; border-radius: 4px 4px 0 0; background: var(--sage-light); }
+.prog-bar-fill.best { background: var(--sage); }
+.prog-bar-day { font-size: 9px; color: #9A9A9A; }
+.prog-insight-ai {
+  background: linear-gradient(135deg, #EDF4EE, #EDF3F9);
+  border-radius: 12px; padding: 12px 14px;
+  border: 1px solid rgba(123,155,128,0.15);
+}
+.prog-insight-top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.prog-insight-badge { font-size: 9px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--sage); color: white; }
+.prog-insight-text { font-size: 11px; color: #3D3D3D; line-height: 1.6; }
+
+/* ─── UX DECISIONS ─── */
+.ux-section { background: #F0EDE8; }
+.ux-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.ux-card {
+  background: white;
+  border-radius: var(--r-xl);
+  padding: 32px;
+  border: 1px solid var(--border);
+}
+.ux-card-num {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.ux-card-title { font-family: 'Fraunces', serif; font-size: 20px; color: var(--ink); margin-bottom: 10px; }
+.ux-card-body { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+.ux-decision-chip {
+  display: inline-block; margin-top: 14px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+  padding: 4px 12px; border-radius: var(--r-pill);
+  text-transform: uppercase;
+}
+.dc-sage { background: var(--sage-pale); color: var(--sage); }
+.dc-blush { background: var(--blush-pale); color: var(--blush); }
+.dc-sky { background: var(--sky-pale); color: var(--sky); }
+.dc-mauve { background: var(--mauve-pale); color: var(--mauve); }
+
+/* ─── DESIGN SYSTEM ─── */
+.ds-section { background: var(--cream); }
+.ds-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.ds-block { margin-bottom: 40px; }
+.ds-block-title { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+.color-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.color-swatch {
+  width: 56px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  cursor: default;
+}
+.swatch-color { height: 48px; }
+.swatch-label { padding: 6px 4px; text-align: center; }
+.swatch-name { font-size: 10px; font-weight: 500; color: var(--ink-soft); display: block; }
+.swatch-hex { font-size: 9px; color: var(--ink-faint); font-family: monospace; }
+
+.type-specimen { margin-bottom: 14px; padding: 20px 24px; background: white; border-radius: var(--r-md); border: 1px solid var(--border); }
+.type-role { font-size: 10px; color: var(--ink-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+
+.btn-showcase { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-primary {
+  padding: 12px 24px; border-radius: var(--r-pill);
+  background: var(--sage); color: white;
+  font-size: 14px; font-weight: 500; font-family: 'Instrument Sans', sans-serif;
+  border: none; cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #6A8A6F; transform: translateY(-1px); }
+.btn-secondary {
+  padding: 12px 24px; border-radius: var(--r-pill);
+  background: white; color: var(--ink-soft);
+  font-size: 14px; font-weight: 500; font-family: 'Instrument Sans', sans-serif;
+  border: 1px solid var(--border); cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--sage); color: var(--sage); }
+.btn-ghost {
+  padding: 12px 24px; border-radius: var(--r-pill);
+  background: var(--sage-pale); color: var(--sage);
+  font-size: 14px; font-weight: 500; font-family: 'Instrument Sans', sans-serif;
+  border: 1px solid var(--sage-light); cursor: pointer;
+}
+.spacing-row { display: flex; gap: 0; align-items: flex-end; }
+.spacing-item { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-right: 16px; }
+.spacing-box { background: var(--sage-light); border-radius: 3px; }
+.spacing-label { font-size: 10px; color: var(--ink-faint); font-family: monospace; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.6);
+  padding: 60px 0;
+  text-align: center;
+}
+.footer-brand { font-family: 'Fraunces', serif; font-size: 28px; color: white; margin-bottom: 8px; }
+.footer-sub { font-size: 13px; margin-bottom: 28px; }
+.footer-tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.footer-tag {
+  font-size: 11px; padding: 6px 16px; border-radius: var(--r-pill);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.5);
+}
+
+/* ─── CURSOR GLOW ─── */
+#cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,155,128,0.10) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: left 0.08s linear, top 0.08s linear;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+/* ─── PAGE LOADER ─── */
+#page-loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #F7F4EF;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 20px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#page-loader.hidden { opacity: 0; visibility: hidden; }
+.loader-brand {
+  font-family: 'Fraunces', serif; font-size: 28px; font-weight: 300;
+  color: #1E1E1E; letter-spacing: -0.01em;
+  opacity: 0; animation: loaderFadeIn 0.5s 0.2s ease forwards;
+}
+.loader-bar-track {
+  width: 160px; height: 2px;
+  background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden;
+  opacity: 0; animation: loaderFadeIn 0.5s 0.4s ease forwards;
+}
+.loader-bar-fill {
+  height: 100%; width: 0%; background: #7B9B80; border-radius: 2px;
+  animation: loaderFill 1.1s 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+@keyframes loaderFadeIn { to { opacity: 1; } }
+@keyframes loaderFill { to { width: 100%; } }
+
+/* ─── SCROLL REVEAL BASE ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94),
+              transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left {
+  opacity: 0; transform: translateX(-40px);
+  transition: opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94),
+              transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0; transform: translateX(40px);
+  transition: opacity 0.75s cubic-bezier(0.25,0.46,0.45,0.94),
+              transform 0.75s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0; transform: scale(0.92);
+  transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+              transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* Stagger delays */
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.13s; }
+.stagger-3 { transition-delay: 0.21s; }
+.stagger-4 { transition-delay: 0.29s; }
+.stagger-5 { transition-delay: 0.37s; }
+.stagger-6 { transition-delay: 0.45s; }
+
+/* ─── HERO ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-up { animation: fadeUp 0.85s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.30s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.60s; }
+
+/* ─── FLOATING BLOBS ─── */
+@keyframes blobDrift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%     { transform: translate(30px,-20px) scale(1.05); }
+  66%     { transform: translate(-20px,15px) scale(0.97); }
+}
+@keyframes blobDrift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%     { transform: translate(-25px,20px) scale(1.08); }
+  70%     { transform: translate(15px,-10px) scale(0.95); }
+}
+@keyframes blobDrift3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(20px,25px) scale(1.06); }
+}
+.blob-1 { animation: blobDrift1 14s ease-in-out infinite; }
+.blob-2 { animation: blobDrift2 18s ease-in-out infinite; }
+.blob-3 { animation: blobDrift3 12s ease-in-out infinite; }
+
+/* ─── PHONE FLOAT ─── */
+@keyframes phoneFloat {
+  0%,100% { transform: translateY(0px) rotate(-1.5deg); }
+  50%     { transform: translateY(-14px) rotate(0.5deg); }
+}
+@keyframes phoneGlow {
+  0%,100% { box-shadow: 0 40px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 0 60px rgba(123,155,128,0); }
+  50%     { box-shadow: 0 50px 100px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05) inset, 0 0 60px rgba(123,155,128,0.12); }
+}
+.phone-frame {
+  animation: phoneFloat 6s ease-in-out infinite, phoneGlow 6s ease-in-out infinite;
+}
+
+/* ─── MOOD RING SPIN ─── */
+@keyframes moodRingSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.mood-ring, .big-mood-ring {
+  animation: moodRingSpin 12s linear infinite;
+}
+.mood-ring-inner, .big-mood-inner {
+  animation: moodRingSpin 12s linear infinite reverse;
+}
+
+/* ─── STAT NUMBER COUNT-UP ─── */
+.stat-num[data-target] { display: inline-block; }
+
+/* ─── FEATURE CARD HOVER ─── */
+.feature-card {
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+}
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.11);
+}
+.feature-icon {
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.feature-card:hover .feature-icon { transform: scale(1.18) rotate(-4deg); }
+
+/* ─── UX CARD HOVER ─── */
+.ux-card {
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+              box-shadow 0.3s ease, border-color 0.3s ease;
+  border: 1px solid var(--border);
+}
+.ux-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.09);
+  border-color: var(--sage-light);
+}
+.ux-card-num {
+  transition: color 0.3s ease;
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.ux-card:hover .ux-card-num { color: var(--sage-light); }
+
+/* ─── COLOR SWATCH HOVER ─── */
+.color-swatch {
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  cursor: pointer;
+}
+.color-swatch:hover { transform: translateY(-6px) scale(1.06); }
+
+/* ─── JOURNEY DOT PULSE ─── */
+@keyframes dotPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(123,155,128,0.3), 0 8px 24px rgba(0,0,0,0.08); }
+  50%     { box-shadow: 0 0 0 8px rgba(123,155,128,0), 0 8px 24px rgba(0,0,0,0.08); }
+}
+.journey-step-dot { animation: dotPulse 3s ease-in-out infinite; }
+.journey-step:nth-child(2) .journey-step-dot { animation-delay: 0.5s; }
+.journey-step:nth-child(3) .journey-step-dot { animation-delay: 1s; }
+.journey-step:nth-child(4) .journey-step-dot { animation-delay: 1.5s; }
+.journey-step:nth-child(5) .journey-step-dot { animation-delay: 2s; }
+.journey-step:nth-child(6) .journey-step-dot { animation-delay: 2.5s; }
+
+/* ─── PERSONA CARD ─── */
+.persona-card-outer {
+  transition: box-shadow 0.4s ease;
+}
+.persona-card-outer:hover {
+  box-shadow: 0 24px 64px rgba(0,0,0,0.12);
+}
+.persona-avatar {
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.persona-card-outer:hover .persona-avatar { transform: scale(1.08) rotate(5deg); }
+
+/* ─── NAV LINK UNDERLINE ─── */
+.nav-links a {
+  position: relative;
+  transition: color 0.2s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1.5px; background: var(--sage);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* ─── MAGNETIC BUTTON ─── */
+.btn-primary, .btn-secondary, .btn-ghost {
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), background 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s;
+  position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  border-radius: inherit;
+}
+.btn-primary:hover::after { transform: translateX(0); }
+.btn-primary:hover { box-shadow: 0 8px 24px rgba(123,155,128,0.35); }
+.btn-primary:active { transform: scale(0.97); }
+
+/* ─── PROGRESS BAR ANIMATE ─── */
+@keyframes barGrow {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to   { transform: scaleY(1); transform-origin: bottom; }
+}
+.dash-bar, .prog-bar-fill {
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 0.9s cubic-bezier(0.34,1.2,0.64,1);
+}
+.bars-animated .dash-bar,
+.bars-animated .prog-bar-fill {
+  transform: scaleY(1);
+}
+.dash-bar:nth-child(1),.prog-bar-wrap:nth-child(1) .prog-bar-fill { transition-delay: 0.05s; }
+.dash-bar:nth-child(2),.prog-bar-wrap:nth-child(2) .prog-bar-fill { transition-delay: 0.12s; }
+.dash-bar:nth-child(3),.prog-bar-wrap:nth-child(3) .prog-bar-fill { transition-delay: 0.19s; }
+.dash-bar:nth-child(4),.prog-bar-wrap:nth-child(4) .prog-bar-fill { transition-delay: 0.26s; }
+.dash-bar:nth-child(5),.prog-bar-wrap:nth-child(5) .prog-bar-fill { transition-delay: 0.33s; }
+.dash-bar:nth-child(6),.prog-bar-wrap:nth-child(6) .prog-bar-fill { transition-delay: 0.40s; }
+.dash-bar:nth-child(7),.prog-bar-wrap:nth-child(7) .prog-bar-fill { transition-delay: 0.47s; }
+
+/* ─── MINI BAR ANIMATE ─── */
+.mini-bar-fill {
+  width: 0% !important;
+  transition: width 1.2s 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.mini-bar-fill.animate { width: 68% !important; }
+
+/* ─── TEXT SHIMMER on section labels ─── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.section-header .label {
+  background: linear-gradient(90deg, #9A9A9A 30%, #7B9B80 50%, #9A9A9A 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ─── HERO LINE DRAW ─── */
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.journey-line {
+  transform-origin: left;
+  animation: lineGrow 1.2s 0.5s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+
+/* ─── SUGGESTION CARD SLIDE-IN ─── */
+@keyframes slideInRight {
+  from { opacity:0; transform: translateX(20px); }
+  to   { opacity:1; transform: translateX(0); }
+}
+.app-suggestion {
+  animation: slideInRight 0.6s 1.2s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+
+/* ─── NOTIFICATION PING on nav-tag ─── */
+@keyframes ping {
+  0%    { box-shadow: 0 0 0 0 rgba(123,155,128,0.5); }
+  70%   { box-shadow: 0 0 0 8px rgba(123,155,128,0); }
+  100%  { box-shadow: 0 0 0 0 rgba(123,155,128,0); }
+}
+.nav-tag { animation: ping 2.5s 2s ease-out 3; }
+
+/* ─── FOOTER TAG HOVER ─── */
+.footer-tag {
+  transition: border-color 0.25s, color 0.25s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  cursor: default;
+}
+.footer-tag:hover {
+  border-color: rgba(123,155,128,0.5);
+  color: rgba(255,255,255,0.9);
+  transform: translateY(-3px);
+}
+
+/* ─── PROBLEM STAT HOVER ─── */
+.problem-stat {
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+}
+.problem-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(201,123,114,0.12);
+}
+
+/* ─── CHIP HOVER ─── */
+.chip {
+  transition: background 0.2s, border-color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.chip:hover { background: var(--mauve-pale); border-color: var(--mauve-light); transform: translateY(-2px); }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sage-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sage); }
+
+/* ─── REDUCED MOTION SAFETY ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .phone-frame { display: none; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .persona-card-outer { grid-template-columns: 1fr; }
+  .journey-track { grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .journey-line { display: none; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .feature-card.wide { grid-column: span 1; }
+  .screens-showcase { flex-wrap: wrap; }
+  .phone-sm, .phone-lg { transform: none; }
+  .ux-grid { grid-template-columns: 1fr; }
+  .ds-grid { grid-template-columns: 1fr; }
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  section { padding: 72px 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .persona-row { grid-template-columns: 1fr; }
+  .journey-track { grid-template-columns: 1fr 1fr; }
+  h1 { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE LOADER -->
+<div id="page-loader">
+  <div class="loader-brand">Serenity ✦</div>
+  <div class="loader-bar-track"><div class="loader-bar-fill"></div></div>
+</div>
+<!-- CURSOR GLOW -->
+<div id="cursor-glow"></div>
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-dot"></div>
+    Serenity
+  </div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#persona">Persona</a>
+    <a href="#screens">Screens</a>
+    <a href="#system">Design System</a>
+  </div>
+  <div class="nav-tag">UX Case Study</div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg-blob blob-1"></div>
+  <div class="hero-bg-blob blob-2"></div>
+  <div class="hero-bg-blob blob-3"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-meta fade-up">
+        <span class="hero-pill">🎓 Student Wellness</span>
+        <span class="hero-pill">🤖 AI-Powered</span>
+        <span class="hero-pill">📱 Mobile App</span>
+      </div>
+      <h1 class="hero-title fade-up delay-1">Your calm,<br><em>intelligent</em><br>companion.</h1>
+      <p class="hero-desc fade-up delay-2">Serenity helps students and young professionals build sustainable self-care routines through mood awareness, AI-powered suggestions, and compassionate design.</p>
+      <div class="hero-stats fade-up delay-3">
+        <div class="stat-item">
+          <div class="stat-num">76%</div>
+          <div class="stat-label">Feel overwhelmed weekly</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">22%</div>
+          <div class="stat-label">Have a self-care habit</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">8wk</div>
+          <div class="stat-label">Design timeline</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO PHONE -->
+    <div class="fade-up delay-4">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-status">
+            <span>9:41</span>
+            <span>●●● 📶 🔋</span>
+          </div>
+          <div class="phone-content">
+            <div class="app-greeting">
+              <div class="app-greeting-label">Good morning</div>
+              <div class="app-greeting-name">Priya ✦</div>
+            </div>
+            <div class="mood-ring-container">
+              <div class="mood-ring-label">How are you feeling?</div>
+              <div class="mood-ring">
+                <div class="mood-ring-inner">😌</div>
+              </div>
+              <div class="mood-dots" style="margin-top:10px;">
+                <div class="mood-dot md-1">😌</div>
+                <div class="mood-dot md-2">🙂</div>
+                <div class="mood-dot md-3 md-active">😐</div>
+                <div class="mood-dot md-4">😟</div>
+                <div class="mood-dot md-5">😔</div>
+              </div>
+            </div>
+            <div class="app-suggestion">
+              <div class="app-suggestion-icon">🌬️</div>
+              <div class="app-suggestion-title">4-7-8 Breathing</div>
+              <div class="app-suggestion-desc">You've been tense on Thursdays. A short breathing reset might help.</div>
+              <div class="app-suggestion-btn">Start · 4 min</div>
+            </div>
+            <div class="app-card">
+              <div class="app-card-top">
+                <div class="app-card-label">This week</div>
+                <div style="font-size:10px;color:#7B9B80;">↑ 12%</div>
+              </div>
+              <div class="app-card-value">Calm</div>
+              <div class="app-card-sub">Your most common mood</div>
+              <div class="mini-bar"><div class="mini-bar-fill" style="width:68%"></div></div>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="pnav-item active">
+              <div class="pnav-icon">🏠</div>
+              <div class="pnav-label">Home</div>
+            </div>
+            <div class="pnav-item">
+              <div class="pnav-icon">😊</div>
+              <div class="pnav-label">Mood</div>
+            </div>
+            <div class="pnav-item">
+              <div class="pnav-icon">📈</div>
+              <div class="pnav-label">Insights</div>
+            </div>
+            <div class="pnav-item">
+              <div class="pnav-icon">✅</div>
+              <div class="pnav-label">Tasks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEM ─── -->
+<section class="problem-section" id="problem">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">01 — Problem Statement</span>
+      <h2>The silent cost of<br>academic pressure.</h2>
+    </div>
+    <div class="problem-grid">
+      <div>
+        <div class="problem-quote-block reveal stagger-1">
+          <div class="problem-quote">"I don't need another app that tells me to meditate. I need one that notices I haven't slept, and asks if I want to do something small about it."</div>
+          <div class="problem-source">— Interview participant, age 22, Psychology student</div>
+        </div>
+        <div class="problem-stats">
+          <div class="problem-stat">
+            <div class="problem-stat-num">76%</div>
+            <div class="problem-stat-desc">of students feel overwhelmed 3–4 days per week during term</div>
+          </div>
+          <div class="problem-stat">
+            <div class="problem-stat-num">3.2×</div>
+            <div class="problem-stat-desc">more likely to abandon apps that create guilt for missed days</div>
+          </div>
+          <div class="problem-stat">
+            <div class="problem-stat-num">89%</div>
+            <div class="problem-stat-desc">report existing wellness apps feel too clinical or heavy</div>
+          </div>
+          <div class="problem-stat">
+            <div class="problem-stat-num">22%</div>
+            <div class="problem-stat-desc">have any consistent self-care habit during academic term</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="problem-point">
+          <div class="problem-point-icon pi-blush">⚠️</div>
+          <div>
+            <div class="problem-point-title">The Awareness Gap</div>
+            <div class="problem-point-desc">Students don't notice mental health declining in real time. Burnout is gradual and invisible until it becomes acute. There is no early warning system.</div>
+          </div>
+        </div>
+        <div class="problem-point">
+          <div class="problem-point-icon pi-sage">🔄</div>
+          <div>
+            <div class="problem-point-title">The Routine Gap</div>
+            <div class="problem-point-desc">Self-care is treated as a luxury, dropped first when schedules tighten. Without light-touch structure, good intentions collapse under deadline pressure.</div>
+          </div>
+        </div>
+        <div class="problem-point">
+          <div class="problem-point-icon pi-mauve">💡</div>
+          <div>
+            <div class="problem-point-title">The Motivation Gap</div>
+            <div class="problem-point-desc">Existing apps are either too clinical or too gamified. Streak mechanics punish real life. Generic suggestions build zero trust. Users disengage quickly.</div>
+          </div>
+        </div>
+        <div class="problem-point">
+          <div class="problem-point-icon pi-blush">📵</div>
+          <div>
+            <div class="problem-point-title">Design Gap</div>
+            <div class="problem-point-desc">Cluttered, anxiety-inducing interfaces add cognitive load. Notification spam trains users to ignore or uninstall. The medium contradicts the message.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PERSONA ─── -->
+<section class="persona-section" id="persona">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">02 — User Persona</span>
+      <h2>Designing for Priya.</h2>
+      <p>Constructed from 12 qualitative interviews and 84 survey responses across student communities.</p>
+    </div>
+    <div class="persona-card-outer reveal-scale">
+      <div class="persona-left">
+        <div>
+          <div class="persona-avatar">🧑</div>
+          <div class="persona-name-block">
+            <div class="persona-name">Priya Menon</div>
+            <div class="persona-role">3rd-year Psychology student · Part-time barista</div>
+          </div>
+          <div class="persona-chips">
+            <span class="chip">Bangalore, IN</span>
+            <span class="chip">Age 22</span>
+            <span class="chip">iPhone user</span>
+            <span class="chip">High achiever</span>
+            <span class="chip">Self-aware</span>
+          </div>
+        </div>
+        <div class="persona-quote-small">
+          "I appear to have it together. Inside, I'm running on empty. I need something that meets me where I am — not where I should be."
+        </div>
+      </div>
+      <div class="persona-right">
+        <div class="persona-grid">
+          <div class="persona-block">
+            <div class="persona-block-title">Goals</div>
+            <ul class="persona-list">
+              <li>Feel in control of her emotional state without a big time investment</li>
+              <li>Understand anxiety patterns before they escalate</li>
+              <li>Build a morning routine that survives schedule disruptions</li>
+              <li>Use one app that actually sticks, not a graveyard of installs</li>
+            </ul>
+          </div>
+          <div class="persona-block">
+            <div class="persona-block-title">Frustrations</div>
+            <ul class="persona-list">
+              <li>Apps that make her feel guilty for skipping a day</li>
+              <li>Generic prompts that have nothing to do with her context</li>
+              <li>Being pushed to "meditate" without any personalisation</li>
+              <li>Visually cluttered UIs that add to anxiety, not reduce it</li>
+            </ul>
+          </div>
+          <div class="persona-block">
+            <div class="persona-block-title">Motivations</div>
+            <ul class="persona-list">
+              <li>Progress she can see in a glance</li>
+              <li>Feeling genuinely understood by the product</li>
+              <li>Ultra-low friction — 2 taps beats a 10-step flow</li>
+              <li>Aesthetic quality as a signal that the product respects her</li>
+            </ul>
+          </div>
+          <div class="persona-block">
+            <div class="persona-block-title">Tech Behaviour</div>
+            <ul class="persona-list">
+              <li>Opens phone 90–120 times/day in sessions under 3 min</li>
+              <li>Prefers dark mode, heavy on Spotify and Notes</li>
+              <li>Uninstalls apps that send more than 2 notifications/day</li>
+              <li>Judges app credibility by visual quality within 10 seconds</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── USER JOURNEY ─── -->
+<section class="journey-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">03 — User Journey</span>
+      <h2>From overwhelmed to in control.</h2>
+      <p>Mapping Priya's emotional arc across a high-pressure assignment week.</p>
+    </div>
+    <div style="position:relative;">
+      <div class="journey-line"></div>
+      <div class="journey-track">
+        <div class="journey-step">
+          <div class="journey-step-dot jd-1">😩</div>
+          <div class="journey-step-title">Discovery</div>
+          <div class="journey-step-desc">Searches App Store after a bad night. Skeptical of yet another wellness app.</div>
+          <span class="journey-emotion em-low">Anxious</span>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-dot jd-2">🤔</div>
+          <div class="journey-step-title">Onboarding</div>
+          <div class="journey-step-desc">3-screen flow. No account creation. Just her name, mood, and one hope.</div>
+          <span class="journey-emotion em-mid">Curious</span>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-dot jd-3">✍️</div>
+          <div class="journey-step-title">First Check-In</div>
+          <div class="journey-step-desc">Logs "Tense" in under 60 seconds. Gets two relevant AI suggestions.</div>
+          <span class="journey-emotion em-mid">Cautiously hopeful</span>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-dot jd-4">✅</div>
+          <div class="journey-step-title">Task Complete</div>
+          <div class="journey-step-desc">Completes a 4-min breathing exercise. No confetti. Just a quiet affirmation.</div>
+          <span class="journey-emotion em-high">Calm</span>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-dot jd-5">📊</div>
+          <div class="journey-step-title">Pattern Found</div>
+          <div class="journey-step-desc">Week 2: AI notes she's tense on Tuesdays. She hadn't noticed that herself.</div>
+          <span class="journey-emotion em-high">Validated</span>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-dot jd-6">🌱</div>
+          <div class="journey-step-title">Week 4</div>
+          <div class="journey-step-desc">18 of 28 check-ins done. Never felt guilty about the other 10. Still here.</div>
+          <span class="journey-emotion em-high">Quietly proud</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ─── -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">04 — Key Features</span>
+      <h2>Small interactions.<br>Meaningful change.</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-sage">🌀</div>
+        <div class="feature-name">Mood Check-In</div>
+        <div class="feature-desc">A visual gradient ring — not a dropdown or a clinical scale. Tap your emotion, add an optional word. Under 60 seconds, every time. No pressure to explain yourself.</div>
+        <span class="feature-tag">Daily habit</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blush">🤖</div>
+        <div class="feature-name">AI Suggestions</div>
+        <div class="feature-desc">The AI reads your mood history, time of day, and weekly patterns to surface 1–2 hyper-relevant suggestions. No generic "try meditating." It knows your Tuesday tension.</div>
+        <span class="feature-tag">Contextual</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-sky">📓</div>
+        <div class="feature-name">Guided Journaling</div>
+        <div class="feature-desc">Prompts that change based on your current mood state. When you're anxious, it asks small grounding questions. When you're well, it invites reflection. Never the same prompt twice in a row.</div>
+        <span class="feature-tag">Adaptive</span>
+      </div>
+      <div class="feature-card wide">
+        <div class="feature-icon fi-mauve">🗓️</div>
+        <div class="feature-name">Self-Care Planner</div>
+        <div class="feature-desc">Build a light routine from a curated library of micro-tasks: 5-min walks, hydration nudges, sleep wind-downs, breath work. Tasks are scheduled by you, nudged gently by the system — never forced. Missing a day resets quietly, not loudly.</div>
+        <span class="feature-tag">Flexible routine</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-amber">📈</div>
+        <div class="feature-name">Progress Dashboard</div>
+        <div class="feature-desc">A weekly mood heatmap and trend line that speaks in human language. "You've been calmer this week than last." Not charts for their own sake — charts that mean something.</div>
+        <span class="feature-tag">Insightful</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-sage2">🔔</div>
+        <div class="feature-name">Gentle Reminders</div>
+        <div class="feature-desc">Maximum one notification per day. Phrased as an invitation: "Ready for your check-in?" — never a guilt-inducing alert. Fully configurable. Silence is respected.</div>
+        <span class="feature-tag">Non-intrusive</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── APP SCREENS ─── -->
+<section class="screens-section" id="screens">
+  <div class="container screens-title-block reveal">
+    <span class="label">05 — App UI Screens</span>
+    <h2 style="margin-top:12px;">The interface,<br>in detail.</h2>
+  </div>
+  <div class="screens-showcase">
+
+    <!-- Dashboard Phone -->
+    <div class="phone-sm">
+      <div class="phone-frame" style="width:260px;height:540px;">
+        <div class="phone-notch" style="width:72px;"></div>
+        <div class="phone-screen">
+          <div class="phone-status" style="padding:14px 16px 6px;">
+            <span style="font-size:11px;font-weight:500;">9:41</span>
+            <span style="font-size:10px;">●●● 🔋</span>
+          </div>
+          <div class="dash-header">
+            <div>
+              <div class="dash-hello">Good morning</div>
+              <div class="dash-name">Priya ✦</div>
+            </div>
+            <div class="dash-avatar">🧑</div>
+          </div>
+          <div class="dash-body">
+            <div class="dash-mood-strip">
+              <div class="dash-mood-strip-top">
+                <div class="dash-mood-strip-label">How are you feeling?</div>
+                <div class="dash-mood-strip-value">Log mood</div>
+              </div>
+              <div class="dash-mood-emojis">
+                <div class="dash-emoji-btn">😌</div>
+                <div class="dash-emoji-btn">🙂</div>
+                <div class="dash-emoji-btn sel">😐</div>
+                <div class="dash-emoji-btn">😟</div>
+                <div class="dash-emoji-btn">😔</div>
+              </div>
+            </div>
+            <div class="dash-insight">
+              <div class="dash-insight-top">
+                <span class="dash-insight-icon">📊</span>
+                <span class="dash-insight-label">Mood this week</span>
+              </div>
+              <div class="dash-chart">
+                <div class="dash-bar" style="height:30%"></div>
+                <div class="dash-bar" style="height:55%"></div>
+                <div class="dash-bar" style="height:40%"></div>
+                <div class="dash-bar highlight" style="height:75%"></div>
+                <div class="dash-bar" style="height:60%"></div>
+                <div class="dash-bar" style="height:50%"></div>
+                <div class="dash-bar highlight" style="height:80%"></div>
+              </div>
+            </div>
+            <div class="dash-tasks">
+              <div class="dash-tasks-title">Today's tasks</div>
+              <div class="dash-task-item">
+                <div class="dash-checkbox done">✓</div>
+                <div class="dash-task-label done">Morning stretch · 5 min</div>
+              </div>
+              <div class="dash-task-item">
+                <div class="dash-checkbox"></div>
+                <div class="dash-task-label">Drink water · 2 glasses</div>
+              </div>
+              <div class="dash-task-item">
+                <div class="dash-checkbox"></div>
+                <div class="dash-task-label">Breathing exercise</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-nav" style="padding:8px 16px;">
+            <div class="pnav-item active"><div class="pnav-icon" style="font-size:16px;">🏠</div><div class="pnav-label">Home</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">😊</div><div class="pnav-label">Mood</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">📈</div><div class="pnav-label">Insights</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">✅</div><div class="pnav-label">Tasks</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <div style="font-size:12px;font-weight:500;color:#3D3D3D;">Dashboard</div>
+        <div style="font-size:11px;color:#9A9A9A;">Home screen</div>
+      </div>
+    </div>
+
+    <!-- Mood Screen (MAIN / LARGE) -->
+    <div class="phone-lg">
+      <div class="phone-frame" style="width:290px;height:610px;">
+        <div class="phone-notch" style="width:76px;"></div>
+        <div class="phone-screen">
+          <div class="phone-status" style="padding:14px 18px 6px;">
+            <span style="font-size:11px;font-weight:500;">9:41</span>
+            <span style="font-size:10px;">●●● 🔋</span>
+          </div>
+          <div class="mood-screen-body">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <span style="font-size:18px;">←</span>
+              <span style="font-size:11px;color:#9A9A9A;">Thursday, Jan 9</span>
+              <span style="font-size:18px;color:transparent;">←</span>
+            </div>
+            <div class="mood-screen-title">How are you<br>feeling right now?</div>
+            <div class="mood-screen-sub">Be honest — this is just for you.</div>
+            <div class="big-mood-ring">
+              <div class="big-mood-inner">😟</div>
+            </div>
+            <div class="mood-scale">
+              <div class="mood-scale-item msi-calm">
+                <div class="mood-scale-emoji">😌</div>
+                <div class="mood-scale-label">Calm</div>
+              </div>
+              <div class="mood-scale-item msi-okay">
+                <div class="mood-scale-emoji">🙂</div>
+                <div class="mood-scale-label">Okay</div>
+              </div>
+              <div class="mood-scale-item msi-low">
+                <div class="mood-scale-emoji">😐</div>
+                <div class="mood-scale-label">Low</div>
+              </div>
+              <div class="mood-scale-item msi-tense">
+                <div class="mood-scale-emoji">😟</div>
+                <div class="mood-scale-label">Tense</div>
+              </div>
+              <div class="mood-scale-item msi-sad">
+                <div class="mood-scale-emoji">😔</div>
+                <div class="mood-scale-label">Sad</div>
+              </div>
+            </div>
+            <div class="mood-note">Add a note (optional) — "deadline tomorrow…"</div>
+            <div style="background:linear-gradient(135deg,#EDF4EE,#F3EFF7);border-radius:12px;padding:12px 14px;margin-bottom:12px;">
+              <div style="font-size:10px;color:#6B6B6B;margin-bottom:4px;">✨ AI noticed</div>
+              <div style="font-size:11px;color:#3D3D3D;line-height:1.5;">You've been tense on Thursdays for 3 weeks. Want a breathing suggestion after logging?</div>
+            </div>
+            <div class="mood-log-btn">Log Mood</div>
+          </div>
+          <div class="phone-nav" style="padding:10px 18px;border-top:1px solid rgba(0,0,0,0.05);background:white;display:flex;justify-content:space-around;">
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">🏠</div><div class="pnav-label">Home</div></div>
+            <div class="pnav-item active"><div class="pnav-icon" style="font-size:16px;">😊</div><div class="pnav-label" style="color:#7B9B80;">Mood</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">📈</div><div class="pnav-label">Insights</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">✅</div><div class="pnav-label">Tasks</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <div style="font-size:12px;font-weight:500;color:#3D3D3D;">Mood Check-In</div>
+        <div style="font-size:11px;color:#9A9A9A;">Core daily interaction</div>
+      </div>
+    </div>
+
+    <!-- Progress Screen -->
+    <div class="phone-sm">
+      <div class="phone-frame" style="width:260px;height:540px;">
+        <div class="phone-notch" style="width:72px;"></div>
+        <div class="phone-screen">
+          <div class="phone-status" style="padding:14px 16px 6px;">
+            <span style="font-size:11px;font-weight:500;">9:41</span>
+            <span style="font-size:10px;">●●● 🔋</span>
+          </div>
+          <div class="prog-screen-body">
+            <div class="prog-title">Your Progress ✦</div>
+            <div class="prog-summary-row">
+              <div class="prog-mini-card">
+                <div class="prog-mini-num">18</div>
+                <div class="prog-mini-label">Check-ins</div>
+              </div>
+              <div class="prog-mini-card">
+                <div class="prog-mini-num">12</div>
+                <div class="prog-mini-label">Tasks done</div>
+              </div>
+              <div class="prog-mini-card">
+                <div class="prog-mini-num">↑4</div>
+                <div class="prog-mini-label">Mood avg</div>
+              </div>
+            </div>
+            <div class="prog-week-chart">
+              <div class="prog-week-label">Mood this week</div>
+              <div class="prog-bars">
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill" style="height:30px;"></div>
+                  <div class="prog-bar-day">M</div>
+                </div>
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill best" style="height:48px;"></div>
+                  <div class="prog-bar-day">T</div>
+                </div>
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill" style="height:22px;"></div>
+                  <div class="prog-bar-day">W</div>
+                </div>
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill" style="height:36px;"></div>
+                  <div class="prog-bar-day">T</div>
+                </div>
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill best" style="height:54px;"></div>
+                  <div class="prog-bar-day">F</div>
+                </div>
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill" style="height:42px;"></div>
+                  <div class="prog-bar-day">S</div>
+                </div>
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-fill" style="height:38px;"></div>
+                  <div class="prog-bar-day">S</div>
+                </div>
+              </div>
+            </div>
+            <div class="prog-insight-ai">
+              <div class="prog-insight-top">
+                <span class="prog-insight-badge">AI Insight</span>
+              </div>
+              <div class="prog-insight-text">You tend to feel most tense on Thursdays. Breathing exercises on those days have improved your mood by an average of 2 points.</div>
+            </div>
+            <div style="margin-top:12px;background:white;border-radius:12px;padding:12px 14px;border:1px solid rgba(0,0,0,0.05);">
+              <div style="font-size:10px;font-weight:500;color:#6B6B6B;margin-bottom:8px;">Completed tasks</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <span style="font-size:10px;padding:3px 8px;background:#EDF4EE;color:#7B9B80;border-radius:20px;">Stretching ✓</span>
+                <span style="font-size:10px;padding:3px 8px;background:#EDF3F9;color:#7B9DB8;border-radius:20px;">Journaling ✓</span>
+                <span style="font-size:10px;padding:3px 8px;background:#FBF4E8;color:#C9A464;border-radius:20px;">Walk ✓</span>
+              </div>
+            </div>
+          </div>
+          <div class="phone-nav" style="padding:8px 16px;">
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">🏠</div><div class="pnav-label">Home</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">😊</div><div class="pnav-label">Mood</div></div>
+            <div class="pnav-item active"><div class="pnav-icon" style="font-size:16px;">📈</div><div class="pnav-label" style="color:#7B9B80;">Insights</div></div>
+            <div class="pnav-item"><div class="pnav-icon" style="font-size:16px;">✅</div><div class="pnav-label">Tasks</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <div style="font-size:12px;font-weight:500;color:#3D3D3D;">Progress & Insights</div>
+        <div style="font-size:11px;color:#9A9A9A;">AI pattern recognition</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── UX DECISIONS ─── -->
+<section class="ux-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">06 — UX Decisions</span>
+      <h2>Every choice has<br>a reason.</h2>
+    </div>
+    <div class="ux-grid">
+      <div class="ux-card">
+        <div class="ux-card-num">01</div>
+        <div class="ux-card-title">Calm pastels, not clinical whites</div>
+        <div class="ux-card-body">Pure white clinical interfaces signal healthcare and obligation. Soft sage, blush, and mauve — borrowed from editorial and lifestyle design — create an atmosphere of warmth before a single interaction occurs. Color is the first emotion the app communicates.</div>
+        <span class="ux-decision-chip dc-sage">Emotional safety</span>
+      </div>
+      <div class="ux-card">
+        <div class="ux-card-num">02</div>
+        <div class="ux-card-title">No streaks. No guilt.</div>
+        <div class="ux-card-body">Streak mechanics were deliberately removed from the design. Every streak-based wellness app punishes real life. A missed day should feel inconsequential — the app resets silently and waits. This design decision directly addressed the primary reason users abandon wellness apps.</div>
+        <span class="ux-decision-chip dc-blush">Compassionate UX</span>
+      </div>
+      <div class="ux-card">
+        <div class="ux-card-num">03</div>
+        <div class="ux-card-title">Visual mood ring, not numerical scales</div>
+        <div class="ux-card-body">A 1–10 scale is clinical and makes users self-analyze before they've shared anything. The gradient colour ring (cool tones to warm tones) lets users select emotionally and intuitively. Mapping colour to feeling reduces the cognitive cost of articulating an internal state.</div>
+        <span class="ux-decision-chip dc-sky">Cognitive ease</span>
+      </div>
+      <div class="ux-card">
+        <div class="ux-card-num">04</div>
+        <div class="ux-card-title">Minimum viable notification</div>
+        <div class="ux-card-body">One gentle invitation per day, maximum. Phrased as a question, not a command. "Ready for your check-in?" performs 40% better in re-engagement tests than "Time to log your mood!" — because it respects user autonomy rather than manufacturing obligation.</div>
+        <span class="ux-decision-chip dc-mauve">Respectful nudging</span>
+      </div>
+      <div class="ux-card">
+        <div class="ux-card-num">05</div>
+        <div class="ux-card-title">AI as friend, not algorithm</div>
+        <div class="ux-card-body">Every AI-generated insight is written in the first person and in conversational language. "You tend to feel tense on Thursdays" reads like a friend who's been paying attention — not a data report. The language layer is as important as the intelligence underneath it.</div>
+        <span class="ux-decision-chip dc-sage">Humanised AI</span>
+      </div>
+      <div class="ux-card">
+        <div class="ux-card-num">06</div>
+        <div class="ux-card-title">No onboarding account wall</div>
+        <div class="ux-card-body">Account creation is deferred until after the user's first value moment. The app asks only for a name, a current mood, and one hope — then delivers a personalised suggestion immediately. This builds trust before asking for commitment, reducing drop-off by an estimated 60%.</div>
+        <span class="ux-decision-chip dc-blush">Trust-first design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DESIGN SYSTEM ─── -->
+<section class="ds-section" id="system">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="label">07 — Design System</span>
+      <h2>The visual language<br>of calm.</h2>
+    </div>
+    <div class="ds-grid">
+      <div>
+        <!-- Colors -->
+        <div class="ds-block">
+          <div class="ds-block-title">Colour Palette</div>
+          <div class="color-row">
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#7B9B80;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Sage</span>
+                <span class="swatch-hex">#7B9B80</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#C3D9C6;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Sage Lt</span>
+                <span class="swatch-hex">#C3D9C6</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#C97B72;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Blush</span>
+                <span class="swatch-hex">#C97B72</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#9B85A8;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Mauve</span>
+                <span class="swatch-hex">#9B85A8</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#7B9DB8;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Sky</span>
+                <span class="swatch-hex">#7B9DB8</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#C9A464;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Amber</span>
+                <span class="swatch-hex">#C9A464</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#F7F4EF;border:1px solid #E8E4DE;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Cream</span>
+                <span class="swatch-hex">#F7F4EF</span>
+              </div>
+            </div>
+            <div class="color-swatch">
+              <div class="swatch-color" style="background:#1E1E1E;"></div>
+              <div class="swatch-label">
+                <span class="swatch-name">Ink</span>
+                <span class="swatch-hex">#1E1E1E</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="ds-block">
+          <div class="ds-block-title">Button Styles</div>
+          <div class="btn-showcase">
+            <button class="btn-primary">Log My Mood</button>
+            <button class="btn-secondary">View Insights</button>
+            <button class="btn-ghost">Skip for now</button>
+          </div>
+        </div>
+
+        <!-- Spacing -->
+        <div class="ds-block">
+          <div class="ds-block-title">Spacing Scale</div>
+          <div class="spacing-row">
+            <div class="spacing-item">
+              <div class="spacing-box" style="width:4px;height:4px;"></div>
+              <div class="spacing-label">4px</div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-box" style="width:8px;height:8px;"></div>
+              <div class="spacing-label">8px</div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-box" style="width:16px;height:16px;"></div>
+              <div class="spacing-label">16px</div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-box" style="width:24px;height:24px;"></div>
+              <div class="spacing-label">24px</div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-box" style="width:32px;height:32px;"></div>
+              <div class="spacing-label">32px</div>
+            </div>
+            <div class="spacing-item">
+              <div class="spacing-box" style="width:48px;height:48px;"></div>
+              <div class="spacing-label">48px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Typography -->
+        <div class="ds-block">
+          <div class="ds-block-title">Typography</div>
+          <div class="type-specimen">
+            <div class="type-role">Display / Headings — Fraunces</div>
+            <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:300;color:#1E1E1E;line-height:1.1;">Your calm,<br><em>intelligent</em> companion.</div>
+          </div>
+          <div class="type-specimen">
+            <div class="type-role">Body / UI — Instrument Sans</div>
+            <div style="font-family:'Instrument Sans',sans-serif;font-size:15px;color:#6B6B6B;line-height:1.7;">A two-tap check-in you'll actually complete beats a ten-step journaling flow you abandon on day three.</div>
+          </div>
+          <div class="type-specimen">
+            <div class="type-role">Labels / Metadata</div>
+            <div style="font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#9A9A9A;">01 — Problem Statement</div>
+          </div>
+        </div>
+
+        <!-- Border radius -->
+        <div class="ds-block">
+          <div class="ds-block-title">Border Radius</div>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:4px;margin:0 auto 6px;"></div>
+              <div style="font-size:10px;color:#9A9A9A;">4px</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:10px;margin:0 auto 6px;"></div>
+              <div style="font-size:10px;color:#9A9A9A;">10px</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:16px;margin:0 auto 6px;"></div>
+              <div style="font-size:10px;color:#9A9A9A;">16px</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:24px;margin:0 auto 6px;"></div>
+              <div style="font-size:10px;color:#9A9A9A;">24px</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:32px;margin:0 auto 6px;"></div>
+              <div style="font-size:10px;color:#9A9A9A;">32px</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:100px;margin:0 auto 6px;"></div>
+              <div style="font-size:10px;color:#9A9A9A;">Pill</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accessibility -->
+        <div class="ds-block">
+          <div class="ds-block-title">Accessibility Principles</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+              <span style="font-size:18px;">🎨</span>
+              <div>
+                <div style="font-size:13px;font-weight:500;color:#1E1E1E;">WCAG AA contrast</div>
+                <div style="font-size:12px;color:#9A9A9A;">All text on pale backgrounds passes 4.5:1 ratio</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+              <span style="font-size:18px;">👆</span>
+              <div>
+                <div style="font-size:13px;font-weight:500;color:#1E1E1E;">44px minimum touch targets</div>
+                <div style="font-size:12px;color:#9A9A9A;">All interactive elements meet iOS HIG guidelines</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:white;border-radius:var(--r-md);border:1px solid var(--border);">
+              <span style="font-size:18px;">🔤</span>
+              <div>
+                <div style="font-size:13px;font-weight:500;color:#1E1E1E;">Dynamic type support</div>
+                <div style="font-size:12px;color:#9A9A9A;">Layouts reflow gracefully at 2× text size</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-brand">Serenity ✦</div>
+    <div class="footer-sub">AI-Based Mood Companion & Self-Care Planner · UX Case Study</div>
+    <div class="footer-tags">
+      <span class="footer-tag">UX Research</span>
+      <span class="footer-tag">UI Design</span>
+      <span class="footer-tag">Mobile App</span>
+      <span class="footer-tag">AI Integration</span>
+      <span class="footer-tag">Figma</span>
+      <span class="footer-tag">Frontend</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── PAGE LOADER ── */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('page-loader');
+    if (loader) loader.classList.add('hidden');
+  }, 1400);
+});
+
+/* ── CURSOR GLOW ── */
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  if (glow) { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }
+});
+
+/* ── SCROLL REVEAL ── */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObs.observe(el));
+
+/* ── STAGGERED CARD REVEALS ── */
+function staggerReveal(selector, baseDelay = 0) {
+  const cards = document.querySelectorAll(selector);
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(36px)';
+    card.style.transition = `opacity 0.65s ${baseDelay + i * 0.1}s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.65s ${baseDelay + i * 0.1}s cubic-bezier(0.25,0.46,0.45,0.94)`;
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = [...cards].indexOf(e.target);
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(c => obs.observe(c));
+}
+staggerReveal('.feature-card', 0);
+staggerReveal('.ux-card', 0);
+staggerReveal('.problem-stat', 0.05);
+staggerReveal('.journey-step', 0.08);
+staggerReveal('.persona-list li', 0.03);
+
+/* ── PHONE SCREENS STAGGER ── */
+const phones = document.querySelectorAll('.phone-sm, .phone-lg');
+phones.forEach((p, i) => {
+  p.style.opacity = '0';
+  p.style.transition = `opacity 0.8s ${0.1 + i * 0.2}s ease, transform 0.8s ${0.1 + i * 0.2}s cubic-bezier(0.25,0.46,0.45,0.94)`;
+  p.style.transform = 'translateY(40px)';
+});
+const phoneObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.1 });
+phones.forEach(p => phoneObs.observe(p));
+
+/* ── COUNT-UP ANIMATION ── */
+function countUp(el, target, suffix, duration = 1800) {
+  const isFloat = target % 1 !== 0;
+  const start = performance.now();
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = isFloat ? (target * ease).toFixed(1) : Math.round(target * ease);
+    el.textContent = val + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+const statsData = [
+  { suffix: '%', target: 76 },
+  { suffix: '%', target: 22 },
+  { suffix: 'wk', target: 8 }
+];
+const statNums = document.querySelectorAll('.stat-num');
+let statsDone = false;
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !statsDone) {
+      statsDone = true;
+      statNums.forEach((el, i) => {
+        if (statsData[i]) countUp(el, statsData[i].target, statsData[i].suffix, 1600 + i * 200);
+      });
+    }
+  });
+}, { threshold: 0.5 });
+if (statNums[0]) statsObs.observe(statNums[0]);
+
+/* ── PROBLEM STAT COUNT-UP ── */
+const probNums = [
+  { el: null, val: 76, sfx: '%' },
+  { el: null, val: 3.2, sfx: '×' },
+  { el: null, val: 89, sfx: '%' },
+  { el: null, val: 22, sfx: '%' }
+];
+document.querySelectorAll('.problem-stat-num').forEach((el, i) => {
+  if (probNums[i]) probNums[i].el = el;
+});
+let probDone = false;
+const probObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !probDone) {
+      probDone = true;
+      probNums.forEach((d, i) => {
+        if (d.el) setTimeout(() => countUp(d.el, d.val, d.sfx, 1400), i * 150);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+const firstProbStat = document.querySelector('.problem-stat-num');
+if (firstProbStat) probObs.observe(firstProbStat);
+
+/* ── PROGRESS BARS ANIMATE ON SCROLL ── */
+const chartContainers = document.querySelectorAll('.dash-insight, .prog-week-chart');
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('bars-animated');
+  });
+}, { threshold: 0.4 });
+chartContainers.forEach(c => barObs.observe(c));
+
+/* ── MINI BAR ANIMATE ── */
+const miniBarObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('animate'); });
+}, { threshold: 0.5 });
+document.querySelectorAll('.mini-bar-fill').forEach(b => miniBarObs.observe(b));
+
+/* ── MOOD DOT INTERACTION ── */
+document.querySelectorAll('.mood-dot').forEach(dot => {
+  dot.addEventListener('click', function() {
+    document.querySelectorAll('.mood-dot').forEach(d => d.classList.remove('md-active'));
+    this.classList.add('md-active');
+    this.style.transform = 'scale(1.3)';
+    setTimeout(() => this.style.transform = '', 300);
+  });
+});
+
+/* ── DASHBOARD EMOJI SELECTION ── */
+document.querySelectorAll('.dash-emoji-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.dash-emoji-btn').forEach(b => b.classList.remove('sel'));
+    this.classList.add('sel');
+    this.style.transform = 'scale(1.25) rotate(10deg)';
+    setTimeout(() => this.style.transform = '', 350);
+  });
+});
+
+/* ── TASK CHECKBOX TOGGLE ── */
+document.querySelectorAll('.dash-checkbox').forEach(cb => {
+  cb.addEventListener('click', function() {
+    const isDone = this.classList.toggle('done');
+    const label = this.nextElementSibling;
+    if (label) label.classList.toggle('done', isDone);
+    this.textContent = isDone ? '✓' : '';
+    this.style.transform = 'scale(1.3)';
+    setTimeout(() => this.style.transform = '', 250);
+  });
+});
+
+/* ── MAGNETIC BUTTON EFFECT ── */
+document.querySelectorAll('.btn-primary, .btn-secondary, .btn-ghost').forEach(btn => {
+  btn.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    this.style.transform = `translate(${x * 0.2}px, ${y * 0.3}px)`;
+  });
+  btn.addEventListener('mouseleave', function() {
+    this.style.transform = '';
+  });
+});
+
+/* ── NAV SCROLL EFFECT ── */
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    nav.style.boxShadow = '0 4px 24px rgba(0,0,0,0.07)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+}, { passive: true });
+
+/* ── PARALLAX BLOBS ── */
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const b1 = document.querySelector('.blob-1');
+  const b2 = document.querySelector('.blob-2');
+  const b3 = document.querySelector('.blob-3');
+  if (b1) b1.style.transform += ` translateY(${y * 0.06}px)`;
+  if (b2) b2.style.transform += ` translateY(${y * -0.04}px)`;
+  if (b3) b3.style.transform += ` translateY(${y * 0.03}px)`;
+}, { passive: true });
+
+/* ── RIPPLE on mood log button ── */
+document.querySelectorAll('.mood-log-btn').forEach(btn => {
+  btn.style.position = 'relative';
+  btn.style.overflow = 'hidden';
+  btn.style.cursor = 'pointer';
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.cssText = `
+      position:absolute; border-radius:50%;
+      width:${size}px; height:${size}px;
+      left:${e.clientX - rect.left - size/2}px;
+      top:${e.clientY - rect.top - size/2}px;
+      background:rgba(255,255,255,0.3);
+      transform:scale(0); animation:ripple 0.6s ease-out forwards;
+      pointer-events:none;
+    `;
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 700);
+  });
+});
+
+/* Ripple keyframe injected */
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `@keyframes ripple { to { transform: scale(2.5); opacity: 0; } }`;
+document.head.appendChild(rippleStyle);
+
+/* ── FOOTER BRAND HOVER SPARKLE ── */
+const footerBrand = document.querySelector('.footer-brand');
+if (footerBrand) {
+  footerBrand.style.cursor = 'default';
+  footerBrand.addEventListener('mouseenter', function() {
+    this.style.transition = 'letter-spacing 0.4s ease';
+    this.style.letterSpacing = '0.05em';
+  });
+  footerBrand.addEventListener('mouseleave', function() {
+    this.style.letterSpacing = '';
+  });
+}
+
+/* ── SMOOTH ACTIVE NAV LINK ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const activeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.style.color = '');
+      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (active) active.style.color = '#7B9B80';
+    }
+  });
+}, { threshold: 0.5 });
+sections.forEach(s => activeObs.observe(s));
+</script>
+
+</body>
+</html>
