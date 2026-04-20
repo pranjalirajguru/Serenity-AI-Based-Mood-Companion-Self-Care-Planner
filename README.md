@@ -118,7 +118,8 @@ Serenity provides a **calm, intelligent, and adaptive experience** that:
 
 ## 📷 Preview
 
-(You can add screenshots here later)
+<img width="1919" height="972" alt="image" src="https://github.com/user-attachments/assets/1df62c3f-da92-4809-931c-443f696e63c5" />
+
 
 ---
 
