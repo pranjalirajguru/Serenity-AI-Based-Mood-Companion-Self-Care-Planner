@@ -142,7 +142,7 @@ Serenity provides a **calm, intelligent, and adaptive experience** that:
 
 ## 👩‍💻 Author
 
-[Your Name]
+Pranjali
 
 ---
 
